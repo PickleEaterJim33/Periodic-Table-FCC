@@ -4,7 +4,7 @@ PSQL="psql --username=freecodecamp --dbname=periodic_table --tuples-only -c"
 if [[ -z $1 ]]
 then
   echo "Please provide an element as an argument."
-  exit 1
+  exit 0
 fi
 
 if [[ $1 =~ ^[0-9]+$ ]]
@@ -17,7 +17,7 @@ fi
 if [[ -z $ELEMENT ]]
 then
   echo "I could not find that element in the database."
-  exit 1
+  exit 0
 fi
 
 echo "$ELEMENT" | while read ATOMIC_NUMBER BAR SYMBOL BAR NAME
@@ -27,6 +27,6 @@ do
   do
     TYPE=$($PSQL "SELECT type FROM types WHERE type_id = $TYPE_ID")
     TYPE_FORMATTED=$(echo "$TYPE" | sed -r 's/^ *| *$//g')
-    echo "The element with atomic number $ATOMIC_NUMBER is $NAME ($SYMBOL). It's a $TYPE_FORMATTED, with a mass of $ATOMIC_MASS amu. Hydrogen has a melting point of $MELTING_POINT_CELSIUS celsius and a boiling point of $BOILING_POINT_CELSIUS celsius."
+    echo "The element with atomic number $ATOMIC_NUMBER is $NAME ($SYMBOL). It's a $TYPE_FORMATTED, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT_CELSIUS celsius and a boiling point of $BOILING_POINT_CELSIUS celsius."
   done
 done
